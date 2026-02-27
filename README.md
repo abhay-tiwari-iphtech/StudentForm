@@ -65,7 +65,7 @@ This project was created to practice:
 1. Clone the repository
 
    ```bash
-   git clone <your-repo-link>
+   git clone https://github.com/abhay-tiwari-iphtech/StudentForm
    ```
 
 2. Open the project folder
