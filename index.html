@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Registration</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg,#cfe9ff,#9fd3ff,#6fb8ff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:950px;
+    display:flex;
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 25px 50px rgba(0,0,80,0.2);
+}
+
+/* LEFT PANEL */
+.left{
+    width:40%;
+    background:linear-gradient(160deg,#0d6efd,#0a58ca,#084298);
+    padding:40px;
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.left img{
+    width:80%;
+    max-width:230px;
+    margin-bottom:20px;
+}
+
+.left h2{
+    margin-bottom:10px;
+}
+
+.left p{
+    font-size:14px;
+    opacity:0.9;
+}
+
+/* RIGHT PANEL */
+.right{
+    width:60%;
+    padding:40px 50px;
+    background:#f4f9ff;
+}
+
+.right h3{
+    margin-bottom:20px;
+    color:#0a58ca;
+}
+
+.form-group{
+    margin-bottom:15px;
+    width:100%;
+}
+
+label{
+    font-size:14px;
+    margin-bottom:5px;
+    display:block;
+    color:#0a3d62;
+    font-weight:500;
+}
+
+input, select, textarea{
+    width:100%;
+    padding:10px 12px;
+    border-radius:8px;
+    border:1px solid #b6d4fe;
+    outline:none;
+    transition:.3s;
+    font-size:14px;
+    background-color:#fff;
+}
+
+input:focus, select:focus, textarea:focus{
+    border-color:#0d6efd;
+    box-shadow:0 0 6px rgba(13,110,253,.3);
+}
+
+textarea{
+    resize:vertical;
+    min-height:80px;
+}
+
+/* FIXED SELECT STYLING */
+select{
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230d6efd' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 35px;
+    cursor: pointer;
+    height: 42px;
+}
+
+.row{
+    display:flex;
+    gap:15px;
+    width:100%;
+}
+
+.row .form-group{
+    flex:1;
+}
+
+.gender-options{
+    display:flex;
+    gap:20px;
+    align-items:center;
+    padding:5px 0;
+}
+.gender-options label{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    cursor:pointer;
+    margin-bottom:0;
+    font-weight:normal;
+}
+.gender-options input[type="radio"]{
+    width:auto;
+    margin:0;
+    accent-color:#0d6efd;
+}
+button{
+    width:100%;
+    padding:12px;
+    background:linear-gradient(90deg,#0d6efd,#084298);
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    margin-top:15px;
+    font-weight:600;
+    transition:.3s;
+    font-size:16px;
+}
+button:hover{
+    background:linear-gradient(90deg,#084298,#052c65);
+    transform:translateY(-2px);
+    box-shadow:0 5px 15px rgba(13,110,253,.3);
+}
+.error{
+    color:#dc3545;
+    font-size:12px;
+    margin-top:3px;
+    min-height:18px;
+}
+@media (max-width: 992px){
+    .container{
+        flex-direction:column;
+        border-radius:20px;
+    }
+
+    .left,
+    .right{
+        width:100%;
+    }
+
+    .left{
+        padding:30px 20px;
+    }
+
+    .right{
+        padding:30px 20px;
+    }
+
+    .left img{
+        max-width:200px;
+    }
+}
+
+@media (max-width: 576px){
+    body{
+        padding:10px;
+    }
+
+    .container{
+        border-radius:15px;
+    }
+
+    .left{
+        padding:25px 15px;
+    }
+
+    .right{
+        padding:25px 15px;
+    }
+
+    .row{
+        flex-direction:column;
+        gap:10px;
+    }
+
+    .gender-options{
+        flex-wrap:wrap;
+        gap:15px;
+    }
+
+    button{
+        padding:10px;
+        font-size:14px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="left">
+    <img src="undraw_learning_qt7d.svg" alt="Learning">
+    <h2>Welcome Student</h2>
+    <p>Register to access your dashboard and manage courses.</p>
+    <p style="margin-top:15px; font-size:12px;">All fields are required</p>
+</div>
+
+<div class="right">
+<h3>Student Registration</h3>
+
+<form id="studentForm">
+
+<div class="row">
+    <div class="form-group">
+        <label>First Name *</label>
+        <input type="text" id="firstName" placeholder="Enter first name">
+        <div class="error" id="firstNameError"></div>
+    </div>
+
+    <div class="form-group">
+        <label>Last Name *</label>
+        <input type="text" id="lastName" placeholder="Enter last name">
+        <div class="error" id="lastNameError"></div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label>Gender *</label>
+    <div class="gender-options">
+        <label><input type="radio" name="gender" value="Male"> Male</label>
+        <label><input type="radio" name="gender" value="Female"> Female</label>
+        <label><input type="radio" name="gender" value="Other"> Other</label>
+    </div>
+    <div class="error" id="genderError"></div>
+</div>
+
+<div class="form-group">
+    <label>Date of Birth *</label>
+    <input type="date" id="dob">
+    <div class="error" id="dobError"></div>
+</div>
+
+<div class="form-group">
+    <label>Email *</label>
+    <input type="email" id="email" placeholder="student@example.com">
+    <div class="error" id="emailError"></div>
+</div>
+
+<div class="row">
+    <div class="form-group">
+        <label>Student ID *</label>
+        <input type="text" id="studentId" placeholder="e.g., STU001">
+        <div class="error" id="studentIdError"></div>
+    </div>
+
+    <div class="form-group">
+        <label>Phone *</label>
+        <input type="tel" id="phone" placeholder="1234567890">
+        <div class="error" id="phoneError"></div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label>Courses *</label>
+    <select id="course">
+        <option value="">Select a Course</option>
+        <option value="Computer Science">Computer Science</option>
+        <option value="Information Technology">Information Technology</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Mechanical">Mechanical</option>
+    </select>
+    <div class="error" id="courseError"></div>
+</div>
+
+<div class="form-group">
+    <label>Address *</label>
+    <textarea id="address" placeholder="Enter your complete address"></textarea>
+    <div class="error" id="addressError"></div>
+</div>
+
+<div class="row">
+    <div class="form-group">
+        <label>City *</label>
+        <input type="text" id="city" placeholder="Enter city name">
+        <div class="error" id="cityError"></div>
+    </div>
+
+    <div class="form-group">
+        <label>Password *</label>
+        <input type="password" id="password" placeholder="Minimum 6 characters">
+        <div class="error" id="passwordError"></div>
+    </div>
+</div>
+
+<button type="submit">Register</button>
+
+</form>
+</div>
+</div>
+
+<script>
+document.getElementById("studentForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let isValid = true;
+
+    function setError(id, message){
+        document.getElementById(id).innerText = message;
+        if(message !== "") isValid = false;
+    }
+    document.querySelectorAll(".error").forEach(el => el.innerText="");
+    
+    let firstName = document.getElementById("firstName").value.trim();
+    let lastName = document.getElementById("lastName").value.trim();
+    let dob = document.getElementById("dob").value;
+    let email = document.getElementById("email").value.trim();
+    let studentId = document.getElementById("studentId").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let course = document.getElementById("course").value;
+    let address = document.getElementById("address").value.trim();
+    let city = document.getElementById("city").value.trim();
+    let password = document.getElementById("password").value;
+    let gender = document.querySelector('input[name="gender"]:checked');
+    if(firstName === "") {
+        setError("firstNameError","First name is required");
+    }
+    if(lastName === "") {
+        setError("lastNameError","Last name is required");
+    }
+    if(!gender) {
+        setError("genderError","Please select gender");
+    }
+    if(dob === "") {
+        setError("dobError","Date of birth is required");
+    }
+    if(email === "") {
+        setError("emailError","Email is required");
+    }
+    if(studentId === "") {
+        setError("studentIdError","Student ID is required");
+    }
+    if(phone === "") {
+        setError("phoneError","Phone number is required");
+    }
+    if(course === "") {
+        setError("courseError","Please select a course");
+    }
+    if(address === "") {
+        setError("addressError","Address is required");
+    }
+    if(city === "") {
+        setError("cityError","City is required");
+    }
+    if(password === "") {
+        setError("passwordError","Password is required");
+    }
+    if(isValid){
+        
+        const student = {
+            firstName: firstName,
+            lastName: lastName,
+            fullName: firstName + " " + lastName,
+            gender: gender ? gender.value : "",
+            dateOfBirth: dob,
+            email: email,
+            studentId: studentId,
+            phone: phone,
+            course: course,
+            address: address,
+            city: city,
+            password: password
+        };
+        
+        alert("Registration Successful 🎉\nWelcome " + firstName + "!");
+        
+        console.log("Student Registered:", student);
+        console.log("Registration Summary:");
+        console.log("- Name: " + student.fullName);
+        console.log("- Date of Birth: " + student.dateOfBirth);
+        console.log("- Email: " + student.email);
+        console.log("- City: " + student.city);
+        
+    
+        document.getElementById("studentForm").reset();
+    }
+});
+
+
+</script>
+
+</body>
+</html>
