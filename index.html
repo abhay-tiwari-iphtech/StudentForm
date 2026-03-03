@@ -48,7 +48,7 @@ body{
 .left img{
     width:80%;
     max-width:230px;
-    margin-bottom:20px;
+    margin-top:20px;
 }
 
 .left h2{
@@ -105,7 +105,10 @@ textarea{
     resize:vertical;
     min-height:80px;
 }
-
+.abc{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
 /* FIXED SELECT STYLING */
 select{
     appearance: none;
@@ -228,6 +231,7 @@ button:hover{
         padding:10px;
         font-size:14px;
     }
+
 }
 </style>
 </head>
@@ -236,10 +240,10 @@ button:hover{
 <div class="container">
 
 <div class="left">
-    <img src="undraw_learning_qt7d.svg" alt="Learning">
     <h2>Welcome Student</h2>
     <p>Register to access your dashboard and manage courses.</p>
     <p style="margin-top:15px; font-size:12px;">All fields are required</p>
+    <img src="undraw_learning_qt7d.svg" alt="Learning">
 </div>
 
 <div class="right">
@@ -260,8 +264,8 @@ button:hover{
         <div class="error" id="lastNameError"></div>
     </div>
 </div>
-
-<div class="form-group">
+<div class="abc">
+    <div class="form-group">
     <label>Gender *</label>
     <div class="gender-options">
         <label><input type="radio" name="gender" value="Male"> Male</label>
@@ -273,13 +277,15 @@ button:hover{
 
 <div class="form-group">
     <label>Date of Birth *</label>
-    <input type="date" id="dob">
+    <input type="date" id="dob" placeholder="dob">
     <div class="error" id="dobError"></div>
+</div>
+
 </div>
 
 <div class="form-group">
     <label>Email *</label>
-    <input type="email" id="email" placeholder="student@example.com">
+    <input type="text" id="email" placeholder="student@example.com">
     <div class="error" id="emailError"></div>
 </div>
 
@@ -345,8 +351,9 @@ document.getElementById("studentForm").addEventListener("submit", function(e){
         document.getElementById(id).innerText = message;
         if(message !== "") isValid = false;
     }
+
     document.querySelectorAll(".error").forEach(el => el.innerText="");
-    
+
     let firstName = document.getElementById("firstName").value.trim();
     let lastName = document.getElementById("lastName").value.trim();
     let dob = document.getElementById("dob").value;
@@ -358,71 +365,77 @@ document.getElementById("studentForm").addEventListener("submit", function(e){
     let city = document.getElementById("city").value.trim();
     let password = document.getElementById("password").value;
     let gender = document.querySelector('input[name="gender"]:checked');
-    if(firstName === "") {
+    let namePattern = /^[A-Za-z]+$/;
+    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    let studentIdPattern = /^STU\d{3}$/;
+    let phonePattern = /^[0-9]{10}$/;
+    let passwordPattern = /^.{6,}$/;
+    if(firstName === ""){
         setError("firstNameError","First name is required");
+    } else if(!namePattern.test(firstName)){
+        setError("firstNameError","Only letters allowed");
     }
-    if(lastName === "") {
+    if(lastName === ""){
         setError("lastNameError","Last name is required");
+    } else if(!namePattern.test(lastName)){
+        setError("lastNameError","Only letters allowed");
     }
-    if(!gender) {
+    if(!gender){
         setError("genderError","Please select gender");
     }
-    if(dob === "") {
+    if(dob === ""){
         setError("dobError","Date of birth is required");
     }
-    if(email === "") {
+    if(email === ""){
         setError("emailError","Email is required");
+    } else if(!emailPattern.test(email)){
+        setError("emailError","Enter valid email");
     }
-    if(studentId === "") {
+    if(studentId === ""){
         setError("studentIdError","Student ID is required");
+    } else if(!studentIdPattern.test(studentId)){
+        setError("studentIdError","Format should be STU001");
     }
-    if(phone === "") {
+    if(phone === ""){
         setError("phoneError","Phone number is required");
+    } else if(!phonePattern.test(phone)){
+        setError("phoneError","Enter valid 10 digit number");
     }
-    if(course === "") {
+    if(course === ""){
         setError("courseError","Please select a course");
     }
-    if(address === "") {
+    if(address === ""){
         setError("addressError","Address is required");
     }
-    if(city === "") {
+    if(city === ""){
         setError("cityError","City is required");
     }
-    if(password === "") {
+    if(password === ""){
         setError("passwordError","Password is required");
+    } else if(!passwordPattern.test(password)){
+        setError("passwordError","Minimum 6 characters required");
     }
     if(isValid){
-        
         const student = {
-            firstName: firstName,
-            lastName: lastName,
+            firstName,
+            lastName,
             fullName: firstName + " " + lastName,
             gender: gender ? gender.value : "",
             dateOfBirth: dob,
-            email: email,
-            studentId: studentId,
-            phone: phone,
-            course: course,
-            address: address,
-            city: city,
-            password: password
+            email,
+            studentId,
+            phone,
+            course,
+            address,
+            city,
+            password
         };
-        
+
         alert("Registration Successful 🎉\nWelcome " + firstName + "!");
-        
         console.log("Student Registered:", student);
-        console.log("Registration Summary:");
-        console.log("- Name: " + student.fullName);
-        console.log("- Date of Birth: " + student.dateOfBirth);
-        console.log("- Email: " + student.email);
-        console.log("- City: " + student.city);
-        
-    
         document.getElementById("studentForm").reset();
     }
 });
-
-
 </script>
 
 </body>
