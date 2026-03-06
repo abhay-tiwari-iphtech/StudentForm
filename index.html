@@ -412,7 +412,12 @@
 
             <div class="form-group">
               <label>Phone *</label>
-              <input type="tel" id="phone" placeholder="1234567890" maxlength="10" />
+              <input
+                type="tel"
+                id="phone"
+                placeholder="1234567890"
+                maxlength="10"
+              />
               <div class="error" id="phoneError"></div>
             </div>
           </div>
@@ -439,7 +444,23 @@
             ></textarea>
             <div class="error" id="addressError"></div>
           </div>
+          <div class="row">
+            <div class="form-group">
+              <label>State *</label>
+              <select type="text" id="state" placeholder="Enter state"></select>
+              <div class="error" id="stateError"></div>
+            </div>
 
+            <div class="form-group">
+              <label>District *</label>
+              <select
+                type="text"
+                id="district"
+                placeholder="Enter district"
+              ></select>
+              <div class="error" id="districtError"></div>
+            </div>
+          </div>
           <div class="row">
             <div class="form-group">
               <label>City *</label>
@@ -480,7 +501,7 @@
           >
             Student registered successfully!
           </div>
-          <button type="submit">Register</button>
+          <button type="submit" id="submitBtn">Register</button>
         </form>
       </div>
     </div>
@@ -501,6 +522,8 @@
               <th>Course</th>
               <th>City</th>
               <th>Address</th>
+              <th>State</th>
+              <th>District</th>
               <th>Password</th>
               <th>Action</th>
             </tr>
@@ -535,6 +558,8 @@
           let phone = document.getElementById("phone").value.trim();
           let course = document.getElementById("course").value;
           let address = document.getElementById("address").value.trim();
+          let state = document.getElementById("state").value;
+          let district = document.getElementById("district").value;
           let city = document.getElementById("city").value.trim();
           let password = document.getElementById("password").value;
           let gender = document.querySelector('input[name="gender"]:checked');
@@ -582,6 +607,13 @@
           if (address === "") {
             setError("addressError", "Address is required");
           }
+          if (state === "") {
+            setError("stateError", "Please select state");
+          }
+
+          if (district === "") {
+            setError("districtError", "Please select district");
+          }
           if (city === "") {
             setError("cityError", "City is required");
           }
@@ -607,9 +639,12 @@
               editingRow.cells[6].innerText = course;
               editingRow.cells[7].innerText = city;
               editingRow.cells[8].innerText = address;
-              editingRow.cells[9].innerText = password;
+              editingRow.cells[9].innerText = state;
+              editingRow.cells[10].innerText = district;
+              editingRow.cells[11].innerText = "*".repeat(password.length);
 
               editingRow = null;
+              document.getElementById("submitBtn").innerText = "Register";
             } else {
               // CREATE NEW ROW
               const tableBody = document.querySelector("#studentTable tbody");
@@ -625,6 +660,8 @@
 <td>${course}</td>
 <td>${city}</td>
 <td>${address}</td>
+<td>${state}</td>
+<td>${district}</td>
 <td>${"*".repeat(password.length)}</td>
 <td>
 <button class="editBtn">Edit</button>
@@ -659,15 +696,16 @@
               document.getElementById("course").value = cells[6].innerText;
               document.getElementById("city").value = cells[7].innerText;
               document.getElementById("address").value = cells[8].innerText;
-              document.getElementById("password").value = cells[9].innerText;
-              document.getElementById("confirmPassword").value =
-                cells[9].innerText;
+              document.getElementById("state").value = cells[9].innerText;
+              document.getElementById("district").value = cells[10].innerText;
+              document.getElementById("password").value = "";
+              document.getElementById("confirmPassword").value = "";
 
               let genderValue = cells[1].innerText;
               document.querySelector(
                 `input[name="gender"][value="${genderValue}"]`,
               ).checked = true;
-
+              document.getElementById("submitBtn").innerText = "Update";
               window.scrollTo({ top: 0, behavior: "smooth" });
             }
             if (e.target.classList.contains("deleteBtn")) {
@@ -680,5 +718,6 @@
           });
         });
     </script>
+    <script src="./district.js"></script>
   </body>
 </html>
